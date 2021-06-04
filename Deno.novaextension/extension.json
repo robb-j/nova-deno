@@ -1,0 +1,109 @@
+{
+  "identifier": "robb-j.deno",
+  "name": "Deno",
+  "organization": "Rob Anderson",
+  "description": "Lorem ipsum, dolor sit amet.",
+  "version": "1.0",
+  "categories": ["languages"],
+
+  "activationEvents": [
+    "onLanguage:typescript",
+    "onLanguage:tsx",
+    "onLanguage:javascript",
+    "onLanguage:jsx"
+  ],
+
+  "main": "main.dist.js",
+
+  "entitlements": {
+    "process": true,
+    "filesystem": "readonly"
+  },
+
+  "commands": {
+    "extensions": [
+      {
+        "title": "Initialize Deno",
+        "command": "deno.initialize"
+      },
+      {
+        "title": "Cache Deno Dependencies",
+        "command": "deno.cache"
+      }
+    ]
+  },
+
+  "config": [
+    {
+      "key": "deno.path",
+      "title": "The path to your deno install",
+      "type": "string",
+      "description": "Must be v1.7+",
+      "default": "/usr/local/bin/deno"
+    },
+    {
+      "key": "deno.internalDebug",
+      "title": "Turn on LSP development debugging",
+      "type": "boolean",
+      "default": false
+    },
+    {
+      "title": "Suggestions",
+      "kind": "section",
+      "children": [
+        {
+          "key": "deno.suggest.completeFunctionCalls",
+          "title": "",
+          "type": "boolean",
+          "default": false
+        },
+        {
+          "key": "deno.suggest.names",
+          "title": "",
+          "type": "boolean",
+          "default": true
+        },
+        {
+          "key": "deno.suggest.paths",
+          "title": "",
+          "type": "boolean",
+          "default": true
+        },
+        {
+          "key": "deno.suggest.autoImports",
+          "title": "",
+          "type": "boolean",
+          "default": true
+        },
+        {
+          "key": "deno.suggest.imports.autoDiscover",
+          "title": "",
+          "type": "boolean",
+          "default": true
+        }
+      ]
+    }
+  ],
+
+  "configWorkspace": [
+    {
+      "key": "deno.enable",
+      "title": "Enable Deno for this workspace",
+      "type": "boolean",
+      "description": "Remember to disable TypeScript",
+      "default": false
+    },
+    {
+      "key": "deno.lint",
+      "title": "Enable Deno linting",
+      "type": "boolean",
+      "default": false
+    },
+    {
+      "key": "deno.unstable",
+      "title": "Use Deno's unstable APIs (i.e. --unstable)",
+      "type": "boolean",
+      "default": false
+    }
+  ]
+}
