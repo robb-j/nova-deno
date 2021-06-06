@@ -1,5 +1,6 @@
 import { createDebug } from "./debug";
 
+const DEBUG_LSP_LOG = false;
 const debug = createDebug("deno");
 
 export class DenoLanguageServer {
@@ -35,17 +36,17 @@ export class DenoLanguageServer {
     const config = this.getConfig();
     debug("config", config);
 
-    const serverOptions = {
+    const serverOptions = this.getServerOptions(
       path,
-      args: ["lsp"],
-      env: {
-        NO_COLOR: "true",
-      },
-    };
+      DEBUG_LSP_LOG ? nova.workspace.path : null
+    );
+    debug("serverOptions", serverOptions);
+
     const clientOptions = {
       syntaxes: ["javascript", "typescript"],
       initializationOptions: config,
     };
+    debug("clientOptions", clientOptions);
 
     // This enables really deep debug logs
     // if (nova.inDevMode()) {
@@ -77,6 +78,32 @@ export class DenoLanguageServer {
       nova.subscriptions.remove(this.languageClient as any);
       this.languageClient = null;
     }
+  }
+
+  getServerOptions(denoPath: string, debugPath: string | null) {
+    if (debugPath) {
+      const stdinLog = nova.path.join(debugPath, "stdin.log");
+      const stdoutLog = nova.path.join(debugPath, "stdout.log");
+
+      return {
+        path: "/bin/sh",
+        args: [
+          "-c",
+          `tee "${stdinLog}" | ${denoPath} lsp | tee "${stdoutLog}"`,
+        ],
+        env: {
+          NO_COLOR: "true",
+        },
+      };
+    }
+
+    return {
+      path: denoPath,
+      args: ["lsp"],
+      env: {
+        NO_COLOR: "true",
+      },
+    };
   }
 
   getConfig() {
