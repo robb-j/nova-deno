@@ -10,7 +10,8 @@
     "onLanguage:typescript",
     "onLanguage:tsx",
     "onLanguage:javascript",
-    "onLanguage:jsx"
+    "onLanguage:jsx",
+    "onWorkspaceContains:tsconfig.json"
   ],
 
   "main": "main.dist.js",
