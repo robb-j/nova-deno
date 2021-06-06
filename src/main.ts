@@ -1,7 +1,7 @@
 import { DenoLanguageServer } from "./deno-language-server";
 import { createDebug } from "./debug";
 
-import { cacheCommand, initializeCommand } from "./commands";
+import { cacheCommand, initializeCommand } from "./commands/all";
 
 const debug = createDebug("main");
 let langServer: DenoLanguageServer | null = null;
