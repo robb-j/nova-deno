@@ -6,7 +6,7 @@ Write Deno scripts in Nova.
 
 See the [Extension readme](/Deno.novaextension/README.md) for more information,
 the [changelog](/Deno.novaextension/CHANGELOG.md) for updates
-or [development notes](/DEVELOPMENT.md) behind-the-scenes.
+or [development notes](/DEV.md) behind-the-scenes.
 
 **todos**
 
