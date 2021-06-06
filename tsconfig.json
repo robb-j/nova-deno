@@ -1,5 +1,7 @@
 {
   "compilerOptions": {
+    "target": "es6",
+    "module": "ES2020",
     "newLine": "lf",
     "strict": true,
     "noImplicitReturns": true,
