@@ -15,5 +15,9 @@ or [development notes](/DEV.md) behind-the-scenes.
 - [x] `cache` command to tell Deno to fetch dependencies
 - [x] `initialize` command to turn on Deno for a project
 - [x] pass `initializationOptions` based on Nova extension/workspace config
-- [ ] Work out why completions aren't working
+- [ ] Work out why completions aren't working - #1
 - [ ] Write the extension readme
+- [ ] Work out why code actions aren't working
+- [ ] Get support for virtual files in nova
+      deno opens up `deno:/` files for definitions and the status page #2.
+      https://code.visualstudio.com/api/extension-guides/virtual-documents
