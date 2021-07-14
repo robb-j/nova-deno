@@ -54,13 +54,15 @@ export class DenoLanguageServer {
     // }
 
     const client = new LanguageClient(
-      "deno-langserver",
+      "robb-j.deno",
       "Deno Language Server",
       serverOptions,
       clientOptions
     );
 
     try {
+      this.setupClient(client);
+
       client.start();
 
       nova.subscriptions.add(client as any);
@@ -69,6 +71,10 @@ export class DenoLanguageServer {
     } catch (error) {
       debug("LSP Failed", error);
     }
+  }
+
+  setupClient(client: LanguageClient) {
+    // ...
   }
 
   stop() {
