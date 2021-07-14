@@ -4,3 +4,4 @@
 
 Deno.novaextension/Scripts
 coverage
+.nova/Configuration.json

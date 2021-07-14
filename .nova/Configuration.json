@@ -1,7 +1,7 @@
 {
-  "deno.enable": true,
-  "deno.lint": true,
-  "deno.unstable": true,
-  "workspace.color": 0,
-  "workspace.name": "deno"
+  "deno.enable" : true,
+  "deno.lint" : true,
+  "deno.unstable" : true,
+  "workspace.color" : 0,
+  "workspace.name" : "deno"
 }
