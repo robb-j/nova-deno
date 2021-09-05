@@ -1,5 +1,10 @@
 # Deno for Nova
 
+**NOTE 05/09/2021** I could not get this extension working to a satisfactory quality, mainly due to [#1](https://github.com/robb-j/nova-deno/issues/1).
+There are [other extensions](https://extensions.panic.com/search/?search=deno) which you might want to try.
+
+---
+
 > :warning: This extension and [Deno Language Server](https://github.com/denoland/deno/tree/main/cli/lsp) are both experimental.
 
 Write Deno scripts in Nova.
