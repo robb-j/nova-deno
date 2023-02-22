@@ -1,9 +1,5 @@
-import * as http from "https://deno.land/std@0.97.0/http/server.ts";
+import { serve } from 'https://deno.land/std@0.177.0/http/mod.ts'
 
-const server = http.serve({ port: 8000 });
+serve(() => new Response('Hello World\n'))
 
-console.log("http://localhost:8000/");
-
-for await (const req of server) {
-  req.respond({ body: "Hello World\n" });
-}
+console.log('http://localhost:8000/')

@@ -1,4 +1,4 @@
-import { createDebug } from "../debug";
+import { createDebug } from "../utils.js";
 
 const debug = createDebug("initialize");
 

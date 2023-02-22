@@ -1,7 +1,8 @@
 {
-  "deno.enable" : true,
+  "deno.enable" : false,
   "deno.lint" : true,
   "deno.unstable" : true,
+  "deno.enablePaths": ["examples"],
   "workspace.color" : 0,
   "workspace.name" : "deno"
 }

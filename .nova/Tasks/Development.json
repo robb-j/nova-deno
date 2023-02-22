@@ -2,9 +2,9 @@
   "actions": {
     "build": {
       "enabled": true,
-      "script": "./bin/build.sh"
+      "path": "bin/build.sh"
     }
   },
-  "identifier": "378A4E53-D240-4FCB-B141-BF49DCD63DAE",
+  "buildBeforeRunning": true,
   "openLogOnRun": "fail"
 }

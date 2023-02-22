@@ -1,27 +1,53 @@
-import { createDebug } from "./debug";
+import { createDebug, debounce } from "./utils.js";
 
-const DEBUG_LSP_LOG = false;
+// Log stdin and stdout of the server to local files
+const DEBUG_LSP_LOG = nova.inDevMode() && false;
+
 const debug = createDebug("deno");
+
+let i = 0;
 
 export class DenoLanguageServer {
   languageClient: LanguageClient | null = null;
+  disposables = new CompositeDisposable();
+
+  restart = debounce(200, (denoPath: string | null) => {
+    debug("restart");
+    this.start(denoPath);
+  });
 
   constructor() {
     debug("#new");
 
-    nova.config.observe("deno.path", (path: string | null) => {
-      this.start(path);
-    });
+    let denoPath: string | null = null;
+
+    this.disposables.add(
+      nova.config.observe("deno.path", (path: string | null) => {
+        debug("denoPath changed");
+        denoPath = path;
+        this.restart(path);
+      })
+    );
+
+    if (nova.workspace.path) {
+      this.disposables.add(
+        nova.fs.watch("deno.json*", (path) => {
+          debug("deno.json changed", path);
+          this.restart(denoPath);
+        })
+      );
+    }
   }
 
   deactivate() {
     debug("#deactivate");
 
     this.stop();
+    this.disposables.dispose();
   }
 
-  start(path: string | null) {
-    debug("#start", path);
+  start(denoPath: string | null) {
+    debug("#start", denoPath, i++);
 
     if (this.languageClient) {
       this.languageClient.stop();
@@ -29,22 +55,16 @@ export class DenoLanguageServer {
       this.languageClient = null;
     }
 
-    if (!path) {
-      path = "/usr/local/bin/deno";
-    }
-
-    const config = this.getConfig();
-    debug("config", config);
+    denoPath ??= "/usr/local/bin/deno";
 
     const serverOptions = this.getServerOptions(
-      path,
+      denoPath,
       DEBUG_LSP_LOG ? nova.workspace.path : null
     );
     debug("serverOptions", serverOptions);
 
     const clientOptions = {
-      syntaxes: ["javascript", "typescript"],
-      initializationOptions: config,
+      syntaxes: ["javascript", "jsx", "typescript", "tsx"], // "markdown"?
     };
     debug("clientOptions", clientOptions);
 
@@ -53,21 +73,20 @@ export class DenoLanguageServer {
     //   serverOptions.args.push("--log-level", "debug");
     // }
 
-    const client = new LanguageClient(
-      "robb-j.deno",
-      "Deno Language Server",
-      serverOptions,
-      clientOptions
-    );
-
     try {
-      this.setupClient(client);
+      const client = new LanguageClient(
+        "robb-j.deno",
+        "Deno Language Server",
+        serverOptions,
+        clientOptions
+      );
+
+      nova.subscriptions.add(client as any);
+      this.languageClient = client;
 
       client.start();
 
-      nova.subscriptions.add(client as any);
-
-      this.languageClient = client;
+      this.setupClient(client);
     } catch (error) {
       debug("LSP Failed", error);
     }
@@ -110,35 +129,5 @@ export class DenoLanguageServer {
         NO_COLOR: "true",
       },
     };
-  }
-
-  getConfig() {
-    const workspace = nova.workspace.config;
-    const extension = nova.config;
-
-    const enable = workspace.get("deno.enable", "boolean") ?? false;
-    const lint = workspace.get("deno.lint", "boolean") ?? false;
-    const unstable = workspace.get("deno.unstable", "boolean") ?? false;
-    const internalDebug =
-      extension.get("deno.internalDebug", "boolean") ?? false;
-
-    // const suggest: any = {
-    //   completeFunctionCalls: extension.get(
-    //     "deno.suggest.completeFunctionCalls",
-    //     "boolean"
-    //   ),
-    //   names: extension.get("deno.suggest.names", "boolean"),
-    //   paths: extension.get("deno.suggest.paths", "boolean"),
-    //   autoImports: extension.get("deno.suggest.autoImports", "boolean"),
-    //   imports: {
-    //     autoDiscover: extension.get(
-    //       "deno.suggest.imports.autoDiscover",
-    //       "boolean"
-    //     ),
-    //     // hosts: extension.get("deno.suggest.imports.hosts", "array"),
-    //   },
-    // };
-
-    return { enable, lint, unstable, internalDebug /*, suggest*/ };
   }
 }

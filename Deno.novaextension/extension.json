@@ -11,7 +11,8 @@
     "onLanguage:tsx",
     "onLanguage:javascript",
     "onLanguage:jsx",
-    "onWorkspaceContains:tsconfig.json"
+    "onWorkspaceContains:deno.json",
+    "onWorkspaceContains:deno.jsonc"
   ],
 
   "main": "main.dist.js",
@@ -24,12 +25,24 @@
   "commands": {
     "extensions": [
       {
-        "title": "Initialize Deno",
+        "title": "Deno: Initialize",
         "command": "deno.initialize"
+      }
+    ],
+    "editor": [
+      {
+        "title": "Cache",
+        "command": "deno.cache",
+        "filters": {
+          "syntaxes": ["typescript", "javascript", "tsx", "jsx"]
+        }
       },
       {
-        "title": "Cache Deno Dependencies",
-        "command": "deno.cache"
+        "title": "Format",
+        "command": "deno.format",
+        "filters": {
+          "syntaxes": ["typescript", "javascript", "tsx", "jsx"]
+        }
       }
     ]
   },

@@ -1,0 +1,8 @@
+{
+  "fmt": {
+    "options": {
+      "singleQuote": true,
+      "semiColons": false
+    }
+  }
+}

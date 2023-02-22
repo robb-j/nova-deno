@@ -1,20 +1,22 @@
 {
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "display": "Nova",
+
   "compilerOptions": {
-    "target": "es6",
-    "module": "ES2020",
+    "target": "ESNext",
+    "module": "Node16",
+    "moduleResolution": "node",
+
     "newLine": "lf",
     "strict": true,
-    "noImplicitReturns": true,
-    "noUnusedLocals": false,
-    "noUnusedParameters": false,
-    "noFallthroughCasesInSwitch": true,
     "noEmitOnError": true,
-    "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true,
-    "allowJs": true,
-    "checkJs": false,
-    "noEmit": true
+    "noEmit": true,
+
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "forceConsistentCasingInFileNames": true
   },
   "include": ["src"],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules", "examples"]
 }

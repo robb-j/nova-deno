@@ -1,7 +1,9 @@
-import { DenoLanguageServer } from "./deno-language-server";
-import { createDebug } from "./debug";
+import { DenoLanguageServer } from "./deno-language-server.js";
+import { createDebug } from "./utils.js";
 
-import { cacheCommand, initializeCommand } from "./commands/all";
+import { cacheCommand } from "./commands/cache.js";
+import { initializeCommand } from "./commands/initialize.js";
+import { formatCommand } from "./commands/format.js";
 
 const debug = createDebug("main");
 let langServer: DenoLanguageServer | null = null;
@@ -22,7 +24,5 @@ export function deactivate() {
 }
 
 nova.commands.register("deno.initialize", (w) => initializeCommand(w));
-nova.commands.register("deno.cache", (w) => cacheCommand(w, langServer));
-
-// WIP
-// nova.commands.register("deno.status", (w) => statusCommand(w, langServer));
+nova.commands.register("deno.cache", (e) => cacheCommand(e, langServer));
+nova.commands.register("deno.format", (e) => formatCommand(e, langServer));
