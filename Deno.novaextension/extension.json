@@ -25,8 +25,12 @@
   "commands": {
     "extensions": [
       {
-        "title": "Deno: Initialize",
+        "title": "Initialize",
         "command": "deno.initialize"
+      },
+      {
+        "title": "Restart",
+        "command": "deno.restart"
       }
     ],
     "editor": [
@@ -41,7 +45,15 @@
         "title": "Format",
         "command": "deno.format",
         "filters": {
-          "syntaxes": ["typescript", "javascript", "tsx", "jsx"]
+          "syntaxes": [
+            "typescript",
+            "javascript",
+            "tsx",
+            "jsx",
+            "json",
+            "jsonc",
+            "markdown"
+          ]
         }
       }
     ]

@@ -5,27 +5,22 @@ const DEBUG_LSP_LOG = nova.inDevMode() && false;
 
 const debug = createDebug("deno");
 
-let i = 0;
-
 export class DenoLanguageServer {
   languageClient: LanguageClient | null = null;
   disposables = new CompositeDisposable();
 
-  restart = debounce(200, (denoPath: string | null) => {
+  restart = debounce(200, () => {
     debug("restart");
-    this.start(denoPath);
+    this.start(nova.config.get("deno.path", "string"));
   });
 
   constructor() {
     debug("#new");
 
-    let denoPath: string | null = null;
-
     this.disposables.add(
-      nova.config.observe("deno.path", (path: string | null) => {
-        debug("denoPath changed");
-        denoPath = path;
-        this.restart(path);
+      nova.config.observe("deno.path", (newPath: string | null) => {
+        debug("denoPath changed", newPath);
+        this.restart();
       })
     );
 
@@ -33,7 +28,7 @@ export class DenoLanguageServer {
       this.disposables.add(
         nova.fs.watch("deno.json*", (path) => {
           debug("deno.json changed", path);
-          this.restart(denoPath);
+          this.restart();
         })
       );
     }
@@ -47,7 +42,7 @@ export class DenoLanguageServer {
   }
 
   start(denoPath: string | null) {
-    debug("#start", denoPath, i++);
+    debug("#start", denoPath);
 
     if (this.languageClient) {
       this.languageClient.stop();
@@ -92,7 +87,7 @@ export class DenoLanguageServer {
     }
   }
 
-  setupClient(client: LanguageClient) {
+  setupClient(_client: LanguageClient) {
     // ...
   }
 
