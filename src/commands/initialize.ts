@@ -47,10 +47,14 @@ export async function initializeCommand(workspace: Workspace) {
   const linter = await confirm("Enable linter?", workspace);
   if (linter === null) return;
 
+  const testing = await confirm("Turn on testing?", workspace);
+  if (testing === null) return;
+
   const unstable = await confirm("Use --unstable features?", workspace);
   if (unstable === null) return;
 
   workspace.config.set("deno.enable", true);
   workspace.config.set("deno.lint", linter);
   workspace.config.set("deno.unstable", unstable);
+  workspace.config.set("deno.testing.enable", testing);
 }

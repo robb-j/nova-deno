@@ -130,6 +130,39 @@
       "title": "Use Deno's unstable APIs (i.e. --unstable)",
       "type": "boolean",
       "default": false
+    },
+    {
+      "key": "deno.testing.enable",
+      "title": "Turn on Deno testing",
+      "type": "boolean",
+      "default": false
+    },
+    {
+      "key": "deno.testing.args",
+      "title": "Turn on Deno testing",
+      "type": "stringArray",
+      "default": []
+    }
+  ],
+
+  "sidebars": [
+    {
+      "id": "testing",
+      "name": "Deno Test",
+      "smallImage": "",
+      "largeImage": "",
+      "sections": [
+        {
+          "id": "info",
+          "name": "Information",
+          "placeholderText": "Deno Test information"
+        },
+        {
+          "id": "tests",
+          "name": "Tests",
+          "placeholderText": "Add some tests to get started"
+        }
+      ]
     }
   ]
 }

@@ -63,8 +63,21 @@ export class DenoLanguageServer {
     }
   }
 
-  setupClient(_client: LanguageClient) {
-    // ...
+  setupClient(client: LanguageClient) {
+    // I don't think testing can be supported without a Nova change
+    // https://deno.land/manual@v1.30.3/advanced/language_server/testing_api#capabilities
+
+    client.onNotification("deno/testModule", (params) => {
+      console.log("deno/testModule", params);
+    });
+
+    client.onNotification("deno/testModuleDelete", (params) => {
+      console.log("deno/testModuleDelete", params);
+    });
+
+    client.onNotification("deno/testRunProgress", (params) => {
+      console.log("deno/testRunProgress", params);
+    });
   }
 
   stop() {
