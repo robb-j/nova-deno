@@ -7,7 +7,6 @@ const debug = createDebug("deno");
 
 export class DenoLanguageServer {
   languageClient: LanguageClient | null = null;
-  disposables = new CompositeDisposable();
 
   restart = debounce(200, () => {
     debug("restart");
@@ -16,29 +15,6 @@ export class DenoLanguageServer {
 
   constructor() {
     debug("#new");
-
-    this.disposables.add(
-      nova.config.observe("deno.path", (newPath: string | null) => {
-        debug("denoPath changed", newPath);
-        this.restart();
-      })
-    );
-
-    if (nova.workspace.path) {
-      this.disposables.add(
-        nova.fs.watch("deno.json*", (path) => {
-          debug("deno.json changed", path);
-          this.restart();
-        })
-      );
-    }
-  }
-
-  deactivate() {
-    debug("#deactivate");
-
-    this.stop();
-    this.disposables.dispose();
   }
 
   start(denoPath: string | null) {

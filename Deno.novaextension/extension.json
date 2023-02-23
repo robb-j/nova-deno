@@ -75,7 +75,7 @@
     },
     {
       "title": "Suggestions",
-      "kind": "section",
+      "type": "section",
       "children": [
         {
           "key": "deno.suggest.completeFunctionCalls",
