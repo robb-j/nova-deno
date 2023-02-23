@@ -61,3 +61,36 @@ export function debounce<T extends unknown[]>(
     }, ms);
   };
 }
+
+export const defaultDenoPath = "/usr/local/bin/deno";
+
+export function isDenoEnabled(config = nova.workspace.config): boolean {
+  const enable = config.get("deno.enable", "boolean") ?? false;
+  const enablePaths = config.get("deno.enablePaths", "array") ?? [];
+
+  return enable || enablePaths.length > 0;
+}
+
+export function getDenoPath(config = nova.config): string {
+  return config.get("deno.path", "string") ?? "/usr/local/bin/deno";
+}
+
+/** Ask the user in the current workspace pick an option */
+export function pickOption(message: string, buttons: string[]) {
+  return new Promise<string | null>((resolve) => {
+    nova.workspace.showActionPanel(message, { buttons }, (chosenIndex) => {
+      if (chosenIndex === null) resolve(null);
+      else resolve(buttons[chosenIndex]);
+    });
+  });
+}
+
+/** Ask a yes/no question and get a boolean response (or null for no answer) */
+export async function confirm(message: string) {
+  const YES = nova.localize("Yes");
+  const NO = nova.localize("No");
+
+  const chosen = await pickOption(message, [YES, NO]);
+  if (chosen === null) return null;
+  return chosen === YES;
+}

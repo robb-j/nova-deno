@@ -1,4 +1,9 @@
-import { createDebug, debounce } from "./utils.js";
+import {
+  createDebug,
+  debounce,
+  defaultDenoPath,
+  getDenoPath,
+} from "./utils.js";
 
 // Log stdin and stdout of the server to local files
 const DEBUG_LSP_LOG = nova.inDevMode() && false;
@@ -10,7 +15,7 @@ export class DenoLanguageServer {
 
   restart = debounce(200, () => {
     debug("restart");
-    this.start(nova.config.get("deno.path", "string"));
+    this.start(getDenoPath());
   });
 
   constructor() {
@@ -22,11 +27,10 @@ export class DenoLanguageServer {
 
     if (this.languageClient) {
       this.languageClient.stop();
-      nova.subscriptions.remove(this.languageClient as any);
       this.languageClient = null;
     }
 
-    denoPath ??= "/usr/local/bin/deno";
+    denoPath ??= defaultDenoPath;
 
     const serverOptions = this.getServerOptions(
       denoPath,
@@ -52,7 +56,6 @@ export class DenoLanguageServer {
         clientOptions
       );
 
-      nova.subscriptions.add(client as any);
       this.languageClient = client;
 
       client.start();
@@ -67,11 +70,15 @@ export class DenoLanguageServer {
     // ...
   }
 
+  dispose() {
+    debug("#dispose");
+    this.stop();
+  }
+
   stop() {
     debug("#stop");
     if (this.languageClient) {
       this.languageClient.stop();
-      nova.subscriptions.remove(this.languageClient as any);
       this.languageClient = null;
     }
   }

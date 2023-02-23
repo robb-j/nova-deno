@@ -120,6 +120,13 @@
       "default": false
     },
     {
+      "key": "deno.enablePaths",
+      "title": "Enable Deno in certain directories",
+      "type": "stringArray",
+      "description": "Remember to disable TypeScript",
+      "default": []
+    },
+    {
       "key": "deno.lint",
       "title": "Enable Deno linting",
       "type": "boolean",

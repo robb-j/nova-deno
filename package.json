@@ -22,5 +22,8 @@
     "*.{js,ts,tsx,json,css,md}": [
       "prettier --write"
     ]
+  },
+  "dependencies": {
+    "strip-json-comments": "^5.0.0"
   }
 }
