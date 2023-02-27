@@ -12,7 +12,7 @@ const debug = createDebug("main");
 export function activate() {
   debug("#activate");
 
-  const tasks = new DenoTaskAssistant(defaultDenoPath, nova.workspace.path);
+  const tasks = new DenoTaskAssistant(defaultDenoPath, nova.workspace);
 
   nova.assistants.registerTaskAssistant(tasks, {
     identifier: tasksIdentifier,

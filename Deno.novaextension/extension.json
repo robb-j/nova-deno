@@ -137,6 +137,55 @@
       "title": "Use Deno's unstable APIs (i.e. --unstable)",
       "type": "boolean",
       "default": false
+    },
+    {
+      "title": "Testing",
+      "description": "Configure how testing works",
+      "type": "section",
+      "children": [
+        {
+          "key": "robb-j.deno.testAllowEnv",
+          "title": "Allow environment access",
+          "type": "boolean",
+          "default": false
+        },
+        {
+          "key": "robb-j.deno.testAllowFfi",
+          "title": "Allow high resolution time measurement",
+          "type": "boolean",
+          "default": false
+        },
+        {
+          "key": "robb-j.deno.testAllowNet",
+          "title": "Allow network access",
+          "type": "boolean",
+          "default": false
+        },
+        {
+          "key": "robb-j.deno.testAllowRead",
+          "title": "Allow file system read access",
+          "type": "boolean",
+          "default": false
+        },
+        {
+          "key": "robb-j.deno.testAllowRun",
+          "title": "Allow running subprocesses",
+          "type": "boolean",
+          "default": false
+        },
+        {
+          "key": "robb-j.deno.testAllowSys",
+          "title": "Allow access to system info",
+          "type": "boolean",
+          "default": false
+        },
+        {
+          "key": "robb-j.deno.testAllowWrite",
+          "title": "Allow file system write access",
+          "type": "boolean",
+          "default": false
+        }
+      ]
     }
   ]
 }

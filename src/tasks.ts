@@ -18,10 +18,23 @@ interface RoughDenoConfig {
 
 export const tasksIdentifier = "robb-j.deno.tasks";
 
+const testFlags = new Map(
+  Object.entries({
+    "robb-j.deno.testAllowRead": "--allow-read",
+    "robb-j.deno.testAllowEnv": "--allow-env",
+    "robb-j.deno.testAllowRun": "--allow-run",
+    "robb-j.deno.testAllowFfi": "--allow-ffi",
+    "robb-j.deno.testAllowHrtime": "--allow-hrtime",
+    "robb-j.deno.testAllowNet": "--allow-net",
+    "robb-j.deno.testAllowSys": "--allow-sys",
+    "robb-j.deno.testAllowWrite": "--allow-write",
+  })
+);
+
 // IDEA: Turn on/off "base" tasks with workspace configuration?
 
 export class DenoTaskAssistant implements TaskAssistant {
-  constructor(public denoPath: string, public basePath: string | null) {}
+  constructor(public denoPath: string, public workspace: Workspace) {}
 
   baseTasks(): Task[] {
     const test = new Task("test");
@@ -46,7 +59,15 @@ export class DenoTaskAssistant implements TaskAssistant {
   ): ResolvedTaskAction {
     const data = context.data as { command: string };
 
-    let args = [data.command];
+    const args = [data.command];
+
+    if (data.command === "test") {
+      args.push(
+        ...Array.from(testFlags)
+          .filter((entry) => this.workspace.config.get(entry[0], "boolean"))
+          .map((entry) => entry[1])
+      );
+    }
 
     if (
       nova.workspace.activeTextEditor &&
@@ -56,6 +77,8 @@ export class DenoTaskAssistant implements TaskAssistant {
     } else {
       return new TaskCommandAction("deno.noFile");
     }
+
+    debug("resolveTask", this.denoPath, args);
 
     return new TaskProcessAction(this.denoPath, { args });
   }
@@ -73,9 +96,9 @@ export class DenoTaskAssistant implements TaskAssistant {
   }
 
   getConfigTasks(configFilename: string): Task[] {
-    if (!this.basePath) return [];
+    if (!this.workspace.path) return [];
 
-    const configPath = nova.path.join(this.basePath, configFilename);
+    const configPath = nova.path.join(this.workspace.path, configFilename);
 
     const stat = nova.fs.stat(configPath);
     if (!stat || !stat.isFile()) return [];
