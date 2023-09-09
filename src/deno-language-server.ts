@@ -1,9 +1,4 @@
-import {
-  createDebug,
-  debounce,
-  defaultDenoPath,
-  getDenoPath,
-} from "./utils.js";
+import { createDebug, debounce } from "./utils.js";
 
 // Log stdin and stdout of the server to local files
 const DEBUG_LSP_LOG = nova.inDevMode() && false;
@@ -15,27 +10,28 @@ export class DenoLanguageServer {
 
   restart = debounce(200, () => {
     debug("restart");
-    this.start(getDenoPath());
+    this.start();
   });
 
   constructor() {
     debug("#new");
   }
 
-  start(denoPath: string | null) {
-    debug("#start", denoPath);
+  start() {
+    debug("#start");
 
     if (this.languageClient) {
       this.languageClient.stop();
       this.languageClient = null;
     }
 
-    denoPath ??= defaultDenoPath;
-
-    const serverOptions = this.getServerOptions(
-      denoPath,
-      DEBUG_LSP_LOG ? nova.workspace.path : null
-    );
+    const serverOptions = {
+      path: "/usr/bin/env",
+      args: ["deno", "lsp", "--quiet"],
+      env: {
+        NO_COLOR: "true",
+      },
+    };
     debug("serverOptions", serverOptions);
 
     const clientOptions = {
@@ -81,31 +77,5 @@ export class DenoLanguageServer {
       this.languageClient.stop();
       this.languageClient = null;
     }
-  }
-
-  getServerOptions(denoPath: string, debugPath: string | null) {
-    if (debugPath) {
-      const stdinLog = nova.path.join(debugPath, "stdin.log");
-      const stdoutLog = nova.path.join(debugPath, "stdout.log");
-
-      return {
-        path: "/bin/sh",
-        args: [
-          "-c",
-          `tee "${stdinLog}" | ${denoPath} lsp | tee "${stdoutLog}"`,
-        ],
-        env: {
-          NO_COLOR: "true",
-        },
-      };
-    }
-
-    return {
-      path: denoPath,
-      args: ["lsp"],
-      env: {
-        NO_COLOR: "true",
-      },
-    };
   }
 }

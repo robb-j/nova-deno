@@ -1,5 +1,5 @@
 import { DenoLanguageServer } from "./deno-language-server.js";
-import { createDebug, defaultDenoPath } from "./utils.js";
+import { createDebug } from "./utils.js";
 
 import { cacheCommand } from "./commands/cache.js";
 import { initializeCommand } from "./commands/initialize.js";
@@ -12,7 +12,7 @@ const debug = createDebug("main");
 export function activate() {
   debug("#activate");
 
-  const tasks = new DenoTaskAssistant(defaultDenoPath, nova.workspace);
+  const tasks = new DenoTaskAssistant(nova.workspace);
 
   nova.assistants.registerTaskAssistant(tasks, {
     identifier: tasksIdentifier,
@@ -28,7 +28,6 @@ export function activate() {
       debug("denoPath changed", denoPath);
       langServer?.restart();
 
-      tasks.denoPath = denoPath ?? defaultDenoPath;
       nova.workspace.reloadTasks(tasksIdentifier);
     })
   );

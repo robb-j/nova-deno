@@ -62,17 +62,11 @@ export function debounce<T extends unknown[]>(
   };
 }
 
-export const defaultDenoPath = "/usr/local/bin/deno";
-
 export function isDenoEnabled(config = nova.workspace.config): boolean {
   const enable = config.get("deno.enable", "boolean") ?? false;
   const enablePaths = config.get("deno.enablePaths", "array") ?? [];
 
   return enable || enablePaths.length > 0;
-}
-
-export function getDenoPath(config = nova.config): string {
-  return config.get("deno.path", "string") ?? "/usr/local/bin/deno";
 }
 
 /** Ask the user in the current workspace pick an option */

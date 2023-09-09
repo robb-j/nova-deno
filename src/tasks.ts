@@ -34,7 +34,7 @@ const testFlags = new Map(
 // IDEA: Turn on/off "base" tasks with workspace configuration?
 
 export class DenoTaskAssistant implements TaskAssistant {
-  constructor(public denoPath: string, public workspace: Workspace) {}
+  constructor(public workspace: Workspace) {}
 
   baseTasks(): Task[] {
     const test = new Task("test");
@@ -59,7 +59,7 @@ export class DenoTaskAssistant implements TaskAssistant {
   ): ResolvedTaskAction {
     const data = context.data as { command: string };
 
-    const args = [data.command];
+    const args = ["deno", data.command];
 
     if (data.command === "test") {
       args.push(
@@ -78,9 +78,9 @@ export class DenoTaskAssistant implements TaskAssistant {
       return new TaskCommandAction("deno.noFile");
     }
 
-    debug("resolveTask", this.denoPath, args);
+    debug("resolveTask", args);
 
-    return new TaskProcessAction(this.denoPath, { args });
+    return new TaskProcessAction("/usr/bin/env", { args });
   }
 
   provideTasks(): Task[] {
@@ -124,8 +124,8 @@ export class DenoTaskAssistant implements TaskAssistant {
         task.name = `Task: ${taskName}`;
         task.setAction(
           Task.Run,
-          new TaskProcessAction(this.denoPath, {
-            args: ["task", taskName],
+          new TaskProcessAction("/usr/bin/env", {
+            args: ["deno", "task", taskName],
           })
         );
 

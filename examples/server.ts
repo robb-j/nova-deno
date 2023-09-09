@@ -1,5 +1,10 @@
-import { serve } from 'https://deno.land/std@0.177.0/http/mod.ts'
+#!/usr/bin/env deno run --allow-net
 
-serve(() => new Response('Hello World\n'))
-
-console.log('http://localhost:8000/')
+Deno.serve({ port: 9000 }, async (request) => {
+  return Response.json({
+    url: request.url,
+    method: request.method,
+    headers: Object.fromEntries(request.headers.entries()),
+    body: await request.text(),
+  })
+})
