@@ -17,7 +17,7 @@ export function activate() {
   nova.assistants.registerTaskAssistant(tasks, {
     identifier: tasksIdentifier,
     name: "Deno tasks",
-  } as any); // TODO: there is a typo in the types for these options
+  });
 
   const langServer = new DenoLanguageServer();
   nova.subscriptions.add(langServer);
