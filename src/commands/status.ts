@@ -17,7 +17,7 @@ const debug = createDebug("about");
 //
 export async function statusCommand(
   workspace: Workspace,
-  langServer: DenoLanguageServer | null
+  langServer: DenoLanguageServer | null,
 ) {
   debug("status");
 
@@ -36,7 +36,7 @@ export async function statusCommand(
     "deno/virtualTextDocument",
     {
       textDocument: { uri: file?.document.uri },
-    }
+    },
   );
 
   debug(response);

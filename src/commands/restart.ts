@@ -5,7 +5,7 @@ const debug = createDebug("restart");
 
 export function restartCommand(
   workspace: Workspace,
-  langServer: DenoLanguageServer | null
+  langServer: DenoLanguageServer | null,
 ) {
   debug("start");
   langServer?.restart();

@@ -13,7 +13,7 @@ export function createDebug(namespace: string) {
     if (!nova.inDevMode()) return;
 
     const humanArgs = args.map((arg) =>
-      typeof arg === "object" ? JSON.stringify(arg) : arg
+      typeof arg === "object" ? JSON.stringify(arg) : arg,
     );
     console.info(`${namespace}:`, ...humanArgs);
   };
@@ -50,7 +50,7 @@ export function getEditorRange(document: TextDocument, range: LspRange): Range {
 */
 export function debounce<T extends unknown[]>(
   ms: number,
-  fn: (...args: T) => void
+  fn: (...args: T) => void,
 ) {
   let timerId: number | null;
   return (...args: T) => {

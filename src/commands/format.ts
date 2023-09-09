@@ -12,7 +12,7 @@ const debug = createDebug("format");
 //
 export async function formatCommand(
   editor: TextEditor,
-  langServer: DenoLanguageServer | null
+  langServer: DenoLanguageServer | null,
 ) {
   if (!langServer?.languageClient) {
     debug("LanguageServer isn't running");
@@ -36,7 +36,7 @@ export async function formatCommand(
 
   const result = (await langServer?.languageClient.sendRequest(
     "textDocument/formatting",
-    params
+    params,
   )) as TextEdit[];
 
   if (!result) return;
@@ -45,7 +45,7 @@ export async function formatCommand(
     for (const change of result.reverse()) {
       edit.replace(
         getEditorRange(editor.document, change.range),
-        change.newText
+        change.newText,
       );
     }
   });

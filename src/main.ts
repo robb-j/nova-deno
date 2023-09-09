@@ -29,19 +29,19 @@ export function activate() {
       langServer?.restart();
 
       nova.workspace.reloadTasks(tasksIdentifier);
-    })
+    }),
   );
 
   // Reload tasks when "deno.enable" or "deno.enablePaths" change
   nova.subscriptions.add(
     nova.workspace.config.observe("deno.enable", () => {
       nova.workspace.reloadTasks(tasksIdentifier);
-    })
+    }),
   );
   nova.subscriptions.add(
     nova.workspace.config.observe("deno.enablePaths", () => {
       nova.workspace.reloadTasks(tasksIdentifier);
-    })
+    }),
   );
 
   // Watch for deno.json changes to restart the server & reload tasks
@@ -53,7 +53,7 @@ export function activate() {
       langServer?.restart();
 
       nova.workspace.reloadTasks(tasksIdentifier);
-    })
+    }),
   );
 
   nova.commands.register("deno.restart", (w) => restartCommand(w, langServer));

@@ -8,7 +8,7 @@ function parseJsonc(input: string) {
   return JSON.parse(
     stripJsonComments(input, {
       trailingCommas: true,
-    })
+    }),
   );
 }
 
@@ -28,7 +28,7 @@ const testFlags = new Map(
     "robb-j.deno.testAllowNet": "--allow-net",
     "robb-j.deno.testAllowSys": "--allow-sys",
     "robb-j.deno.testAllowWrite": "--allow-write",
-  })
+  }),
 );
 
 // IDEA: Turn on/off "base" tasks with workspace configuration?
@@ -41,21 +41,21 @@ export class DenoTaskAssistant implements TaskAssistant {
     test.name = "Test";
     test.setAction(
       Task.Run,
-      new TaskResolvableAction({ data: { command: "test" } })
+      new TaskResolvableAction({ data: { command: "test" } }),
     );
 
     const format = new Task("format");
     format.name = "Format";
     format.setAction(
       Task.Run,
-      new TaskResolvableAction({ data: { command: "fmt" } })
+      new TaskResolvableAction({ data: { command: "fmt" } }),
     );
 
     return [test, format];
   }
 
   resolveTaskAction(
-    context: TaskActionResolveContext<any>
+    context: TaskActionResolveContext<any>,
   ): ResolvedTaskAction {
     const data = context.data as { command: string };
 
@@ -65,7 +65,7 @@ export class DenoTaskAssistant implements TaskAssistant {
       args.push(
         ...Array.from(testFlags)
           .filter((entry) => this.workspace.config.get(entry[0], "boolean"))
-          .map((entry) => entry[1])
+          .map((entry) => entry[1]),
       );
     }
 
@@ -126,7 +126,7 @@ export class DenoTaskAssistant implements TaskAssistant {
           Task.Run,
           new TaskProcessAction("/usr/bin/env", {
             args: ["deno", "task", taskName],
-          })
+          }),
         );
 
         tasks.push(task);

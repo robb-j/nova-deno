@@ -9,7 +9,7 @@ const syntaxes = new Set(["typescript", "javascript", "tsx", "jsx"]);
 //
 export async function cacheCommand(
   textEditor: TextEditor,
-  langServer: DenoLanguageServer | null
+  langServer: DenoLanguageServer | null,
 ) {
   if (!langServer?.languageClient) {
     debug("LanguageServer isn't running");

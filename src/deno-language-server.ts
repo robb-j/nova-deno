@@ -36,6 +36,7 @@ export class DenoLanguageServer {
 
     const clientOptions = {
       syntaxes: ["javascript", "jsx", "typescript", "tsx"], // "markdown"?
+      // debug: nova.inDevMode(),
     };
     debug("clientOptions", clientOptions);
 
@@ -49,7 +50,7 @@ export class DenoLanguageServer {
         "robb-j.deno",
         "Deno Language Server",
         serverOptions,
-        clientOptions
+        clientOptions,
       );
 
       this.languageClient = client;
