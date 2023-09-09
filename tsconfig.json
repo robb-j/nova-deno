@@ -5,7 +5,7 @@
   "compilerOptions": {
     "target": "ESNext",
     "module": "Node16",
-    "moduleResolution": "node",
+    "moduleResolution": "Node16",
 
     "newLine": "lf",
     "strict": true,
